@@ -1,5 +1,5 @@
 import fs from "fs";
-const accessToken = "CFPAT-jiyixRs2tPYPtgc65DKR6F7iGbs3Mra0SbqvJ0afVhw";
+const accessToken = xxxxxxxxxxxxxxxxxxxxx; // ask me
 const spaceID = "tckbs3t41kd5";
 const environment = "master";
 
