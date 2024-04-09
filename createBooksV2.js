@@ -32,7 +32,7 @@ const fetchAssetId = async (book) => {
             file: {
               "en-US": {
                 contentType: "image/jpeg",
-                fileName: getImageNameFromUrl(book.url),
+                fileName: getImageNameFromUrl(book.img),
                 upload: book.img,
               },
             },
