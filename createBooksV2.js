@@ -13,9 +13,31 @@ const fetchAssetId = (book) => {
 };
 
 const createItem = (book, assetId) => {
-  console.log(
-    `creating item ${JSON.stringify(book)} with asset id: ${assetId}`,
-  );
+  book.id = { "en-US": parseInt(book.id) };
+  book.title = { "en-US": book.title };
+  if (book.subtitle) {
+    book.subtitle = { "en-US": book.subtitle };
+  }
+  book.description = { "en-US": book.description };
+  book.authors = { "en-US": book.authors };
+  book.publisher = { "en-US": book.publisher };
+  book.pages = { "en-US": parseInt(book.pages) };
+  book.year = { "en-US": parseInt(book.year) };
+  book.img = {
+    "en-US": {
+      sys: {
+        type: "Link",
+        linkType: "Asset",
+        id: 12345678910,
+      },
+    },
+  };
+  book.url = { "en-US": book.url };
+
+  console.log(book);
+  // // console.log(
+  //   `creating item ${JSON.stringify(book)} with asset id: ${assetId}`,
+  // );
 };
 
 let canProcess = true;
