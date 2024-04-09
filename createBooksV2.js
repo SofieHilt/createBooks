@@ -1,18 +1,53 @@
-//import bookList from "./bookList.json" with { type: "json" };
 import fs from "fs";
-
-// 👇️ if you use CommonJS imports, use this instead
-// const fs = require('fs');
+const accessToken = "CFPAT-jiyixRs2tPYPtgc65DKR6F7iGbs3Mra0SbqvJ0afVhw";
+const spaceID = "tckbs3t41kd5";
+const environment = "master";
 
 const bookList = JSON.parse(fs.readFileSync("./bookList.json"));
 
-const fetchAssetId = (book) => {
+// generate image name from url
+function getImageNameFromUrl(url) {
+  const parts = url.split("/");
+  const imageName = parts[parts.length - 1];
+  return imageName;
+}
+
+const fetchAssetId = async (book) => {
+  let assetResponse;
   console.log("fetching Asset Id for:", book.title);
-  let assetId = 12345;
-  return assetId;
+  try {
+    const response = await fetch(
+      `https://api.contentful.com/spaces/tckbs3t41kd5/environments/master/assets`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/vnd.contentful.management.v1+json",
+        },
+        body: JSON.stringify({
+          fields: {
+            title: {
+              "en-US": book.title,
+            },
+            file: {
+              "en-US": {
+                contentType: "image/jpeg",
+                fileName: getImageNameFromUrl(book.url),
+                upload: book.img,
+              },
+            },
+          },
+        }),
+      },
+    );
+
+    assetResponse = await response.json();
+    let assetId = assetResponse.sys.id;
+    return assetId;
+  } catch (err) {}
 };
 
-const createItem = (book, assetId) => {
+const createItem = async (book, assetId) => {
   book.id = { "en-US": parseInt(book.id) };
   book.title = { "en-US": book.title };
   if (book.subtitle) {
@@ -28,12 +63,31 @@ const createItem = (book, assetId) => {
       sys: {
         type: "Link",
         linkType: "Asset",
-        id: 12345678910,
+        id: assetId,
       },
     },
   };
   book.url = { "en-US": book.url };
+  try {
+    const response = await fetch(
+      `https://api.contentful.com/spaces/tckbs3t41kd5/environments/master/entries`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/vnd.contentful.management.v1+json",
+          "X-Contentful-Content-Type": "bookItem",
+        },
+        body: JSON.stringify({
+          fields: book,
+        }),
+      },
+    );
 
+    assetResponse = await response.json();
+    let assetId = assetResponse.sys.id;
+    return assetId;
+  } catch (err) {}
   console.log(book);
   // // console.log(
   //   `creating item ${JSON.stringify(book)} with asset id: ${assetId}`,
