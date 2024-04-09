@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "name": "createbooks",
+  "version": "1.0.0",
+  "description": "testing how to create book on contentful",
+  "main": "createBooksV2.js",
+  "scripts": {
+    "test": "node ./createBooksV2.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
