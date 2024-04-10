@@ -5,6 +5,6 @@
 3. writing array to bookList.json
 
 ### createBooksV2.js to: 
-1. [ ] upload cover images to contentful's asset api 
+1. upload cover images to contentful's asset api 
 2. extract asset ids and...
 3. create all books as content with the linked cover images.
